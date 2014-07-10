@@ -10,6 +10,7 @@ from itertools import product
 from pymor.analyticalproblems.elliptic import EllipticProblem
 from pymor.core import Unpicklable, inject_sid
 from pymor.domaindescriptions import RectDomain
+from pymor.domaindescriptions import BoundaryType
 from pymor.functions import GenericFunction, ConstantFunction
 from pymor.parameters import CubicParameterSpace, ProjectionParameterFunctional
 import math as m
@@ -52,7 +53,7 @@ class ThermalBlockProblemRadial(EllipticProblem, Unpicklable):
 
     def __init__(self, num_ringe=(4), parameter_range=(0.1, 1), rhs=ConstantFunction(dim_domain=2)):
 
-        domain = RectDomain()
+        domain = RectDomain(top=BoundaryType('neumann'), bottom=BoundaryType('neumann'))  # NOQA
         parameter_space = CubicParameterSpace({'diffusion': (num_ringe)}, *parameter_range)
         dr = m.sqrt(2)/2 / num_ringe
 
